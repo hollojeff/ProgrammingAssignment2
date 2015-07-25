@@ -4,18 +4,30 @@
 ## creates inverse matrix and saves it to the global enviroment
 
 makeCacheMatrix <- function(x = matrix()) {
-  solve(x) ##expand
+  m <- NULL
+  set <- function(y) {
+    x <<- y
+    m <<- NULL
+  }
+  get <- function() x
+  setinv <- function(solve) m <<- solve
+  getinv <- function() m
+  list(set = set, get = get,
+       setinv = setinv,
+       getinv = getinv)
 }
 
 ## Checks if Matrix exists, is the same and retrieves if true.
 ## else creates inverse matrix
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-  m <- x$matrix() ## check if matrix is there
-  if(!is.null(m)) { ##test to check if matrix exists (elaborate)
-    message("getting cached data")
-    return(m)
-  }
-  ##create inverse matrix
+    m <- x$getinv[]
+    if(!is.null(m)) {
+      message("getting cached data")
+      return(m)
+    }
+    data <- x$get[]
+    m <- solve(data)
+    x$setinv[m]
+    m
 }
